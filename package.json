@@ -11,8 +11,10 @@
     "format": "biome format --write"
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.9.26",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
+    "bulma": "^1.0.4",
     "dotenv": "^18.0.10",
     "next": "16.4.6",
     "pg": "^8.23.1",
