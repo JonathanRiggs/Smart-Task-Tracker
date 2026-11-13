@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Priority, Status } from "../../../app/generated/prisma/enums";
+import { Priority, Status } from "../../generated/prisma/enums";
 
 // ---------------------------------------------------------------------------
 // Helpers
