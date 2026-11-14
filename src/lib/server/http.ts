@@ -57,3 +57,19 @@ export function errorResponse(error: unknown): Response {
   console.error(error);
   return Response.json({ error: "Internal server error" }, { status: 500 });
 }
+
+/**
+ * Wrap a route handler so any thrown error becomes a consistent JSON error
+ * response via `errorResponse`. Use this for every API route handler.
+ */
+export function withErrorHandling<Args extends unknown[]>(
+  handler: (...args: Args) => Promise<Response>,
+) {
+  return async (...args: Args): Promise<Response> => {
+    try {
+      return await handler(...args);
+    } catch (error) {
+      return errorResponse(error);
+    }
+  };
+}
