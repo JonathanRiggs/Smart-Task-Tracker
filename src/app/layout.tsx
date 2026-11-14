@@ -1,9 +1,13 @@
-import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import {
+  ClerkProvider,
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import 'bulma/css/bulma.min.css';
-
-
+import "bulma/css/bulma.min.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -24,7 +28,10 @@ export default function RootLayout({
               <Show when="signed-out">
                 <SignInButton />
                 <SignUpButton>
-                  <button type="button" className="bg-purple-700 text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
+                  <button
+                    type="button"
+                    className="bg-purple-700 text-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer"
+                  >
                     Sign Up
                   </button>
                 </SignUpButton>
@@ -38,5 +45,5 @@ export default function RootLayout({
         </ClerkProvider>
       </body>
     </html>
-  )
+  );
 }
