@@ -70,3 +70,38 @@
     opacity: 0.5;
   }
 }
+
+/* Task cards + modal: src/components/card-comp/ */
+.task-list {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 48rem;
+}
+
+/* Cards are <button>s for keyboard access; undo button defaults. */
+.box.task-card {
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  border: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.box.task-card:hover {
+  box-shadow:
+    var(--bulma-shadow),
+    0 0 0 1px var(--bulma-link);
+}
+
+/* The modal backdrop is a <button> so clicking it closes the modal. */
+button.modal-background {
+  border: none;
+  padding: 0;
+  cursor: default;
+}
+
+.is-line-through {
+  text-decoration: line-through;
+}
