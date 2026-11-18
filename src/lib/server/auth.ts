@@ -1,5 +1,6 @@
 import "server-only";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { cache } from "react";
 import { HttpError } from "./http";
 import { prisma } from "./prisma";
 
@@ -18,13 +19,16 @@ export async function requireUserId(): Promise<string> {
 /**
  * For pages and server components: like `requireUserId`, but redirects
  * signed-out visitors to the sign-in page instead of throwing a 401.
+ *
+ * Wrapped in React `cache()` so the layout's <RequireAuth> and the page
+ * share one auth check + DB lookup per request.
  */
-export async function requirePageUserId(): Promise<string> {
+export const requirePageUserId = cache(async (): Promise<string> => {
   const { userId, redirectToSignIn } = await auth();
   if (!userId) return redirectToSignIn();
   await ensureUserRow(userId);
   return userId;
-}
+});
 
 /** On a user's first request, copy their profile from Clerk into our DB. */
 async function ensureUserRow(userId: string) {

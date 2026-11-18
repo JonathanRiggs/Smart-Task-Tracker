@@ -5,7 +5,11 @@ import { Priority, PrismaClient, Status } from "../src/generated/prisma/client";
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL });
 const prisma = new PrismaClient({ adapter });
 
-const SEED_USER_ID = "seed-user";
+/**
+ * Set SEED_USER_ID in .env to your Clerk user id (user_...) to seed data
+ * into your own account. Falls back to a standalone demo user.
+ */
+const SEED_USER_ID = process.env.SEED_USER_ID ?? "seed-user";
 const DAY = 24 * 60 * 60 * 1000;
 
 /** Date relative to now, so "overdue" / "upcoming" stay true whenever the seed runs. */
@@ -227,15 +231,19 @@ const tasks: SeedTask[] = [
 ];
 
 async function main() {
-  // Start clean: deleting the user cascades to its projects and tasks.
-  await prisma.user.deleteMany({ where: { id: SEED_USER_ID } });
+  // Start clean for this user, but keep the user row itself: for a real
+  // Clerk account it holds the actual email, which we shouldn't overwrite.
+  await prisma.task.deleteMany({ where: { userId: SEED_USER_ID } });
+  await prisma.project.deleteMany({ where: { userId: SEED_USER_ID } });
 
-  await prisma.user.create({
-    data: {
+  await prisma.user.upsert({
+    where: { id: SEED_USER_ID },
+    create: {
       id: SEED_USER_ID,
       email: "demo@example.com",
       name: "Demo User",
     },
+    update: {},
   });
 
   const projectIds = {} as Record<ProjectKey, string>;
