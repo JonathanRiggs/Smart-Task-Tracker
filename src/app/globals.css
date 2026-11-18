@@ -1,0 +1,72 @@
+/* Layout for the authenticated app shell: src/app/(app)/layout.tsx */
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* .columns adds negative margins; doubled class beats Bulma's selectors. */
+.columns.app-shell__body {
+  flex: 1;
+  margin: 0;
+}
+
+.app-shell__sidebar {
+  width: 240px;
+  border-right: 1px solid var(--bulma-border-weak);
+}
+
+.app-shell__main {
+  min-width: 0;
+}
+
+/* Stack the sidebar above the content on phones. */
+@media (max-width: 768px) {
+  .app-shell__sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--bulma-border-weak);
+  }
+}
+
+.project-dot {
+  display: inline-block;
+  width: 0.6em;
+  height: 0.6em;
+  margin-right: 0.5em;
+  border-radius: 50%;
+}
+
+.user-menu-placeholder {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bulma-background);
+}
+
+/* Loading skeleton for src/app/(app)/loading.tsx */
+.skeleton-lines {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 32rem;
+}
+
+.skeleton-line {
+  height: 1rem;
+  border-radius: 4px;
+  background: var(--bulma-background);
+  animation: skeleton-pulse 1.2s ease-in-out infinite;
+}
+
+.skeleton-line:first-child {
+  height: 1.75rem;
+  width: 40%;
+}
+
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
