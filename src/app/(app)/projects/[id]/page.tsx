@@ -13,9 +13,6 @@ type Params = PageProps<"/projects/[id]">["params"];
 /**
  * No async work at the top level: params and the uncached DB queries are
  * read inside <Suspense> so client navigations between projects are instant.
- *
- * Note: the (app) layout already streams, so notFound() here renders the
- * not-found UI (with noindex) rather than an HTTP 404 status.
  */
 export default function ProjectPage({ params }: PageProps<"/projects/[id]">) {
   return (
