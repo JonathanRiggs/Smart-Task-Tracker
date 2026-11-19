@@ -1,6 +1,9 @@
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Suspense } from "react";
+import NewTaskButton from "@/components/card-comp/new-task-button";
+import { requirePageUserId } from "@/lib/server/auth";
+import { listProjects } from "@/lib/server/projects";
 
 export function AppHeader() {
   return (
@@ -12,6 +15,12 @@ export function AppHeader() {
       </div>
       <div className="navbar-end">
         <div className="navbar-item">
+          {/* Needs the user's projects, so it streams in like the sidebar. */}
+          <Suspense fallback={null}>
+            <HeaderNewTask />
+          </Suspense>
+        </div>
+        <div className="navbar-item">
           {/* UserButton reads the session, so it streams in under Suspense. */}
           <Suspense fallback={<span className="user-menu-placeholder" />}>
             <UserButton />
@@ -19,5 +28,13 @@ export function AppHeader() {
         </div>
       </div>
     </nav>
+  );
+}
+
+async function HeaderNewTask() {
+  const userId = await requirePageUserId();
+  const projects = await listProjects(userId);
+  return (
+    <NewTaskButton projects={projects.map(({ id, name }) => ({ id, name }))} />
   );
 }
